@@ -1,0 +1,14 @@
+{
+	"name": "com.thunderrice.modubil",
+	"version": "0.1.0",
+	"displayName": "Modubil",
+	"description": "Arcade vehicle physics for Unity.",
+	"unity": "2020.1",
+	"author": {
+		"name": "Thor Helms",
+		"email": "thorhelms@hotmail.com",
+		"url": "https://github.com/ThorHelms/modubil"
+	},
+	"dependencies": {},
+	"scopedRegistries": []
+}
