@@ -5,27 +5,19 @@ using Vector3 = UnityEngine.Vector3;
 
 namespace Assets.Modubil.Runtime.Wheel {
     public class WheelFriction : MonoBehaviour, IPoweredWheel, IRpmProvider {
-        const float engineShaftToWheelRatio = 25;
-
         [Tooltip("A height offset for applying forces, to prevent the vehicle from rolling as much.")]
         [SerializeField] private float _applyForcesOffset;
-
-        public float forwardFrictionCoeff = 1;
-
-        public Vector3 velocity { get; private set; }
-
-        public float motorTorque { get; set; }
-
-        public float lateralFrictionMultiplier = 300;
-
+        [SerializeField] private bool _applyForcesAtCom;
+        [SerializeField] private float _lateralFrictionMultiplier = 300; // How much weight this wheel should try to turn with
+        [SerializeField] private bool _debugLog;
 
         private Rigidbody _rb;
-
+        private IWheel _wheel;
         private IWheelCollisionDetector _wheelCollisionDetector;
 
         private float _rpm;
-
-        private IWheel _wheel;
+        private Vector3 velocity;
+        private float motorTorque;
 
         private void Start()
         {
@@ -86,15 +78,36 @@ namespace Assets.Modubil.Runtime.Wheel {
             var forwardVelocity = Vector3.Project(velocity, forward);
             var slip = (forwardVelocity + lateralVelocity) / 2;
 
-            var lateralFriction = Vector3.Project(right, slip).magnitude * lateralVelocity.magnitude * lateralFrictionMultiplier / Time.fixedDeltaTime;
-            _rb.AddForceAtPosition(-Vector3.Project(slip, lateralVelocity).normalized * lateralFriction, point + forceOffset);
+            var lateralM = _lateralFrictionMultiplier;
+            var lateralA = Vector3.Project(right, slip).magnitude * lateralVelocity.magnitude * -Vector3.Project(slip, lateralVelocity).normalized;
+            var lateralF = lateralM * lateralA / Time.fixedDeltaTime;
+
+            var lateralFPoint = point + forceOffset;
+
+            if (_debugLog)
+            {
+                Debug.Log($"Lat A for {transform.name}: {lateralA}");
+                Debug.DrawRay(lateralFPoint, lateralF, Color.magenta, 1);
+            }
+
+            var forceToAdd = lateralF;
 
             var motorForce = Mathf.Abs(motorTorque / _wheel.GetRadius());
-            var maxForwardFriction = motorForce * forwardFrictionCoeff;
+            var maxForwardFriction = motorForce;
             var appliedForwardFriction = Mathf.Clamp(motorForce, 0, maxForwardFriction);
 
-            var forwardForce = direction.normalized * appliedForwardFriction * engineShaftToWheelRatio;
-            _rb.AddForceAtPosition(forwardForce, point + forceOffset);
+            var forwardForce = direction.normalized * appliedForwardFriction;
+
+            forceToAdd += forwardForce;
+
+            if (_applyForcesAtCom)
+            {
+                _rb.AddForce(forceToAdd);
+            }
+            else
+            {
+                _rb.AddForceAtPosition(forceToAdd, lateralFPoint);
+            }
         }
 
         public void ApplyTorque(float torque)
