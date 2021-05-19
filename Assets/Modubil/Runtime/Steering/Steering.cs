@@ -3,6 +3,7 @@
 namespace Assets.Modubil.Runtime.Steering {
     public class Steering : MonoBehaviour, ISteering {
         [SerializeField] private float _minTurningRadius = 8;
+        [SerializeField] private Transform _neutralSteeringMarker;
 
         private float _angle;
         private ISteerableWheel[] _wheels;
@@ -15,7 +16,10 @@ namespace Assets.Modubil.Runtime.Steering {
             _wheels = rb.transform.GetComponentsInChildren<ISteerableWheel>();
         }
 
-        private void Update() {
+        private void Update()
+        {
+            var neutralPosition = _neutralSteeringMarker == null ? transform.position : _neutralSteeringMarker.position;
+
             if (Mathf.Approximately(_angle, 0))
             {
                 foreach (var wheel in _wheels)
@@ -25,13 +29,13 @@ namespace Assets.Modubil.Runtime.Steering {
 
                 if (_steeringMarker != null)
                 {
-                    _steeringMarker.transform.position = transform.position;
+                    _steeringMarker.transform.position = neutralPosition;
                 }
             }
             else
             {
                 var dist = Mathf.Tan((_angle + 2) * Mathf.PI / 4) * _minTurningRadius;
-                var turningPoint = transform.right * dist * -1 + transform.position;
+                var turningPoint = transform.right * dist * -1 + neutralPosition;
 
                 if (_steeringMarker != null)
                 {

@@ -5,7 +5,7 @@ using Vector3 = UnityEngine.Vector3;
 
 namespace Assets.Modubil.Runtime.Wheel {
     public class WheelFriction : MonoBehaviour, IPoweredWheel, IRpmProvider {
-        [Tooltip("A height offset for applying forces, to prevent the vehicle from rolling as much.")]
+        [Tooltip("A height offset for applying forces, to prevent the vehicle from rolling as much. Should be between 0 and 1. 0 means hit height, 1 means center of mass height.")]
         [SerializeField] private float _applyForcesOffset;
         [SerializeField] private bool _applyForcesAtCom;
         [SerializeField] private float _lateralFrictionMultiplier = 300; // How much weight this wheel should try to turn with
@@ -82,12 +82,16 @@ namespace Assets.Modubil.Runtime.Wheel {
             var lateralA = Vector3.Project(right, slip).magnitude * lateralVelocity.magnitude * -Vector3.Project(slip, lateralVelocity).normalized;
             var lateralF = lateralM * lateralA / Time.fixedDeltaTime;
 
-            var lateralFPoint = point + forceOffset;
+            var localPoint = transform.InverseTransformPoint(point);
+            var localCom = transform.InverseTransformPoint(_rb.worldCenterOfMass);
+            var forceY = Mathf.Lerp(localPoint.y, localCom.y, _applyForcesOffset);
+            var localForcePoint = new Vector3(localPoint.x, forceY, localPoint.z);
+            var forcePoint = transform.TransformPoint(localForcePoint);
 
             if (_debugLog)
             {
                 Debug.Log($"Lat A for {transform.name}: {lateralA}");
-                Debug.DrawRay(lateralFPoint, lateralF, Color.magenta, 1);
+                Debug.DrawRay(forcePoint, lateralF, Color.magenta, 1);
             }
 
             var forceToAdd = lateralF;
@@ -106,7 +110,7 @@ namespace Assets.Modubil.Runtime.Wheel {
             }
             else
             {
-                _rb.AddForceAtPosition(forceToAdd, lateralFPoint);
+                _rb.AddForceAtPosition(forceToAdd, forcePoint);
             }
         }
 

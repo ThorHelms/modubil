@@ -1744,7 +1744,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ced0bd0950164284e970abf5ee4cefde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _applyForcesOffset: 0.22
+  _applyForcesOffset: 1
   _applyForcesAtCom: 0
   _lateralFrictionMultiplier: 300
   _debugLog: 0
@@ -1901,6 +1901,36 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 318612141}
   m_Mesh: {fileID: 4300068, guid: df7495afdce80f54694ff3d2fae828ac, type: 3}
+--- !u!1 &321523674
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 321523675}
+  m_Layer: 7
+  m_Name: Neutral steering position
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &321523675
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 321523674}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.26, z: -1.27}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1826384999}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &321892343
 GameObject:
   m_ObjectHideFlags: 0
@@ -4136,7 +4166,7 @@ Transform:
   m_LocalScale: {x: 0.2, y: 1, z: 0.2}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &619371109
 GameObject:
@@ -4264,6 +4294,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _minTurningRadius: 8
+  _neutralSteeringMarker: {fileID: 321523675}
   _steeringMarker: {fileID: 617943562}
 --- !u!1 &640475763
 GameObject:
@@ -5419,6 +5450,36 @@ Transform:
   m_Father: {fileID: 658600715}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &825072955
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 825072956}
+  m_Layer: 7
+  m_Name: Neutral steering position
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &825072956
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 825072955}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.26, z: -1.2700005}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1164765622}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &826900984
 GameObject:
   m_ObjectHideFlags: 0
@@ -5783,7 +5844,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!1 &868563361
 GameObject:
@@ -7918,6 +7979,7 @@ Transform:
   - {fileID: 1684693429}
   - {fileID: 2004019663}
   - {fileID: 1792245668}
+  - {fileID: 825072956}
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -7934,7 +7996,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _minTurningRadius: 8
-  _steeringMarker: {fileID: 617943562}
+  _neutralSteeringMarker: {fileID: 825072956}
+  _steeringMarker: {fileID: 0}
 --- !u!1 &1188774577
 GameObject:
   m_ObjectHideFlags: 0
@@ -8084,7 +8147,7 @@ Transform:
   - {fileID: 826900985}
   - {fileID: 1681780284}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1214353002
 GameObject:
@@ -11359,7 +11422,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ced0bd0950164284e970abf5ee4cefde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _applyForcesOffset: 0.22
+  _applyForcesOffset: 1
   _applyForcesAtCom: 0
   _lateralFrictionMultiplier: 300
   _debugLog: 0
@@ -11525,6 +11588,7 @@ Transform:
   - {fileID: 990357208}
   - {fileID: 347979719}
   - {fileID: 658600715}
+  - {fileID: 321523675}
   m_Father: {fileID: 0}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -11728,7 +11792,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 152b8efdd6256c64fb3ad77cd3b294e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 1826384999}
+  target: {fileID: 1164765622}
   distance: 6
   height: 1
   rotationDamping: 8
@@ -12458,7 +12522,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3b85e25256fd4e4da7311f52bde51c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _vehicle: {fileID: 1826384994}
+  _vehicle: {fileID: 1164765618}
 --- !u!4 &2016063157
 Transform:
   m_ObjectHideFlags: 0
@@ -12471,7 +12535,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2018930561
 GameObject:
@@ -13429,6 +13493,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _minTurningRadius: 8
+  _neutralSteeringMarker: {fileID: 0}
   _steeringMarker: {fileID: 0}
 --- !u!1 &1178698914724540
 GameObject:
@@ -14042,7 +14107,7 @@ Transform:
   - {fileID: 4418453495901924}
   - {fileID: 8897573137072653998}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4321814465814416
 Transform:
