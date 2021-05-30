@@ -1,19 +1,23 @@
-﻿using UnityEngine;
+﻿using System.Linq;
+using UnityEngine;
 
 namespace Assets.Modubil.Runtime.Power
 {
     public class Drivetrain : MonoBehaviour, IDrivetrain
     {
         private IPoweredAxle[] _axles;
+        private Rigidbody _rb;
 
         private void Start()
         {
             _axles = GetComponentsInChildren<IPoweredAxle>();
+            _rb = GetComponentInParent<Rigidbody>();
         }
 
         public void ApplyMotorTorque(float torque)
         {
             // TODO: Apply torque according to how much torque each axle can receive, see code below
+
             foreach (var axle in _axles)
             {
                 axle.ApplyTorque(torque / _axles.Length);
