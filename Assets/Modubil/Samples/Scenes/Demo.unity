@@ -283,6 +283,7 @@ MonoBehaviour:
   _applyForcesOffset: 0
   _applyForcesAtCom: 0
   _maxForce: 20000
+  _epsilonPercent: 0.05
   _debugLog: 0
   _debugColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &34747068
@@ -541,6 +542,7 @@ MonoBehaviour:
   _applyForcesOffset: 0
   _applyForcesAtCom: 0
   _maxForce: 20000
+  _epsilonPercent: 0.05
   _debugLog: 0
   _debugColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &133316339
@@ -1621,6 +1623,7 @@ MonoBehaviour:
   _applyForcesOffset: 0.22
   _applyForcesAtCom: 1
   _maxForce: 20000
+  _epsilonPercent: 0.05
   _debugLog: 0
   _debugColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &313623393
@@ -1749,7 +1752,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _applyForcesOffset: 1
   _applyForcesAtCom: 0
-  _maxForce: 20000
+  _maxForce: 50000
+  _epsilonPercent: 0.05
   _debugLog: 0
   _debugColor: {r: 0.035300493, g: 1, b: 0, a: 1}
 --- !u!114 &317401500
@@ -2229,6 +2233,7 @@ MonoBehaviour:
   _applyForcesOffset: 0
   _applyForcesAtCom: 0
   _maxForce: 20000
+  _epsilonPercent: 0.05
   _debugLog: 0
   _debugColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &339932461
@@ -2337,7 +2342,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _applyForcesOffset: 1
   _applyForcesAtCom: 0
-  _maxForce: 20000
+  _maxForce: 50000
+  _epsilonPercent: 0.05
   _debugLog: 0
   _debugColor: {r: 1, g: 0.91944766, b: 0, a: 1}
 --- !u!114 &344388385
@@ -3610,6 +3616,7 @@ MonoBehaviour:
   _applyForcesOffset: 0
   _applyForcesAtCom: 0
   _maxForce: 20000
+  _epsilonPercent: 0.05
   _debugLog: 0
   _debugColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &530922805
@@ -4625,6 +4632,7 @@ MonoBehaviour:
   _applyForcesOffset: 0.22
   _applyForcesAtCom: 1
   _maxForce: 20000
+  _epsilonPercent: 0.05
   _debugLog: 0
   _debugColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &697107835
@@ -6001,6 +6009,7 @@ MonoBehaviour:
   _applyForcesOffset: 0.22
   _applyForcesAtCom: 1
   _maxForce: 20000
+  _epsilonPercent: 0.05
   _debugLog: 0
   _debugColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &878426880
@@ -8361,7 +8370,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _applyForcesOffset: 1
   _applyForcesAtCom: 0
-  _maxForce: 20000
+  _maxForce: 50000
+  _epsilonPercent: 0.05
   _debugLog: 0
   _debugColor: {r: 1, g: 0, b: 0.30884838, a: 1}
 --- !u!114 &1280817281
@@ -9747,6 +9757,7 @@ MonoBehaviour:
   _applyForcesOffset: 0.22
   _applyForcesAtCom: 1
   _maxForce: 20000
+  _epsilonPercent: 0.05
   _debugLog: 0
   _debugColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &1531853265
@@ -11637,7 +11648,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _applyForcesOffset: 1
   _applyForcesAtCom: 0
-  _maxForce: 20000
+  _maxForce: 50000
+  _epsilonPercent: 0.05
   _debugLog: 0
   _debugColor: {r: 0, g: 0.8527436, b: 1, a: 1}
 --- !u!114 &1820658407

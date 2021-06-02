@@ -1,4 +1,5 @@
-﻿using Assets.Modubil.Runtime.CollisionDetection;
+﻿using System;
+using Assets.Modubil.Runtime.CollisionDetection;
 using Assets.Modubil.Runtime.Power;
 using Assets.Modubil.Runtime.Suspension;
 using UnityEngine;
@@ -10,6 +11,7 @@ namespace Assets.Modubil.Runtime.Wheel {
         [SerializeField] private float _applyForcesOffset;
         [SerializeField] private bool _applyForcesAtCom;
         [SerializeField] private float _maxForce = 20000;
+        [SerializeField] private float _epsilonPercent = 0.05f;
         [SerializeField] private bool _debugLog;
         [SerializeField] private Color _debugColor;
 
@@ -67,23 +69,14 @@ namespace Assets.Modubil.Runtime.Wheel {
             }
 
             var right = transform.right;
-            var forward = transform.forward;
+            var forward = Vector3.Cross(normal, right);
 
-            var direction = Vector3.Cross(normal, right);
+            var lateralF = GetLateralForce(forward, right, point);
+
             if (motorTorque < 0)
             {
-                direction *= -1;
+                forward *= -1;
             }
-
-            var lateralVelocity = Vector3.Project(velocity, right);
-            var forwardVelocity = Vector3.Project(velocity, forward);
-            var slip = (forwardVelocity + lateralVelocity) / 2;
-
-            var lateralM = _supportedMass;
-            //var latPart1 = Vector3.Project(right, slip).magnitude;
-            //var latPart2 = lateralVelocity.magnitude * lateralVelocity.magnitude;
-            var lateralA = Vector3.Project(right, slip).magnitude * lateralVelocity.magnitude * lateralVelocity.magnitude * -Vector3.Project(slip, lateralVelocity).normalized;
-            var lateralF = lateralM * lateralA / Time.fixedDeltaTime;
 
             var localPoint = transform.InverseTransformPoint(point);
             var localCom = transform.InverseTransformPoint(_rb.worldCenterOfMass);
@@ -91,28 +84,20 @@ namespace Assets.Modubil.Runtime.Wheel {
             var localForcePoint = new Vector3(localPoint.x, forceY, localPoint.z);
             var forcePoint = transform.TransformPoint(localForcePoint);
 
-            if (_debugLog)
-            {
-                Debug.Log($"Lat A for {transform.name}: {lateralA}");
-                Debug.DrawRay(forcePoint, lateralF, _debugColor, 1);
-            }
-
             var forceToAdd = lateralF;
 
             var motorForce = Mathf.Abs(motorTorque / _wheel.GetRadius());
             var maxForwardFriction = motorForce;
             var appliedForwardFriction = Mathf.Clamp(motorForce, 0, maxForwardFriction);
 
-            var forwardForce = direction.normalized * appliedForwardFriction;
+            var forwardForce = forward.normalized * appliedForwardFriction;
 
             forceToAdd += forwardForce;
 
             if (forceToAdd.magnitude > _maxForce)
             {
-                Debug.Log($"{transform.name} wanted to apply a force of size {forceToAdd.magnitude} - scaling down to {_maxForce}");
                 forceToAdd = forceToAdd.normalized * _maxForce;
             }
-            //if (forceToAdd.magnitude > 11000) Debug.Log($"{transform.name} wheel friction magnitude: {forceToAdd.magnitude}, lateralF: {lateralF.magnitude}, latPart1: {latPart1}, latPart2: {latPart2}");
 
             if (_applyForcesAtCom)
             {
@@ -120,10 +105,30 @@ namespace Assets.Modubil.Runtime.Wheel {
             }
             else
             {
-                //Debug.DrawRay(forcePoint, forceToAdd, _debugColor, 1);
-                Debug.DrawRay(point, lateralVelocity, _debugColor, 1);
                 _rb.AddForceAtPosition(forceToAdd, forcePoint);
             }
+        }
+
+        private Vector3 GetLateralForce(Vector3 forward, Vector3 right, Vector3 point)
+        {
+            var lateralVelocity = Vector3.Project(velocity, right);
+            var forwardVelocity = Vector3.Project(velocity, forward);
+
+            Debug.DrawRay(point, lateralVelocity, _debugColor, 10);
+
+            if (Mathf.Abs(forwardVelocity.magnitude) < Single.Epsilon ||
+                lateralVelocity.magnitude / forwardVelocity.magnitude < _epsilonPercent)
+            {
+                return Vector3.zero;
+            }
+
+            var slip = (forwardVelocity + lateralVelocity) / 2;
+            var lateralForceDirection = -lateralVelocity.normalized;
+
+            var lateralA = Vector3.Project(right, slip).magnitude * lateralVelocity.magnitude * lateralVelocity.magnitude;
+            var maxLateralA = lateralVelocity.magnitude;
+            lateralA = Mathf.Min(lateralA, maxLateralA);
+            return _supportedMass * lateralA * lateralForceDirection / Time.fixedDeltaTime;
         }
 
         public void ApplyTorque(float torque)
